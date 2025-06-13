@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="member-detail-container">
+    <h2>Member Details</h2>
+
+    <div class="member-info">
+        <p><strong>Username:</strong> {{ member.user.username }}</p>
+        <p><strong>Membership Type:</strong> {{ member.membership_type }}</p>
+        <p><strong>Phone Number:</strong> {{ member.phone_number }}</p>
+        <p><strong>Address:</strong> {{ member.address }}</p>
+    </div>
+
+    <div class="actions">
+        <a href="{% url 'member_update' member.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'member_list' %}" class="btn btn-secondary">Back to Members</a>
+    </div>
+</div>
+
+<style>
+    .member-detail-container {
+        max-width: 600px;
+        margin: 24px auto;
+        padding: 24px;
+        background: rgba(30, 41, 59, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 12px 40px rgba(100, 116, 139, 0.3);
+        color: #f1f5f9;
+        font-family: 'Inter', sans-serif;
+    }
+
+    h2 {
+        font-weight: 700;
+        color: #d9f0f7;
+        margin-bottom: 16px;
+    }
+
+    .member-info {
+        margin-bottom: 20px;
+    }
+
+    .member-info p {
+        margin: 8px 0;
+        font-size: 1.1rem;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+        color: #f8fafc;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+        background: linear-gradient(135deg, #5a27c9, #0497b3);
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #64748b;
+        color: #f8fafc;
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+        background: #4a5967;
+        color: #fff;
+    }
+</style>
+{% endblock %}

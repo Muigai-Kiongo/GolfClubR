@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bookings-container">
+    <h2>Bookings</h2>
+
+    <div class="actions">
+        <a href="{% url 'create_booking' %}" class="btn btn-primary">Add New Booking</a>
+        <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    {% if bookings %}
+    <ul class="bookings-list">
+        {% for booking in bookings %}
+        <li class="booking-item">
+            <span class="booking-member">{{ booking.member.user.username }}</span>
+            <span class="booking-type">{{ booking.booking_type }}</span>
+            <span class="booking-date">{{ booking.scheduled_date }}</span>
+            <div class="booking-actions">
+                <a href="{% url 'booking_update' booking.pk %}" class="btn btn-link">Edit</a> |
+                <a href="{% url 'booking_delete' booking.pk %}" class="btn btn-link">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="no-bookings-message">No bookings found.</p>
+    {% endif %}
+</div>
+
+<style>
+    .bookings-container {
+        max-width: 800px;
+        margin: 24px auto;
+        padding: 24px;
+        background: rgba(30, 41, 59, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 12px 40px rgba(100, 116, 139, 0.3);
+        color: #f1f5f9;
+        font-family: 'Inter', sans-serif;
+    }
+
+    h2 {
+        font-weight: 700;
+        color: #d9f0f7;
+        margin-bottom: 16px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+        color: #f8fafc;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+        background: linear-gradient(135deg, #5a27c9, #0497b3);
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #64748b;
+        color: #f8fafc;
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+        background: #4a5967;
+        color: #fff;
+    }
+
+    .bookings-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .booking-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+    }
+
+    .booking-item:last-child {
+        border-bottom: none;
+    }
+
+    .booking-member {
+        font-weight: 600;
+        color: #d9f0f7;
+    }
+
+    .booking-type {
+        color: #a0aec0;
+        margin-left: 12px;
+    }
+
+    .booking-date {
+        color: #a0aec0;
+        margin-left: 12px;
+    }
+
+    .booking-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-link {
+        color: #06b6d4;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+
+    .btn-link:hover,
+    .btn-link:focus {
+        color: #7c3aed;
+        text-decoration: none;
+    }
+
+    .no-bookings-message {
+        font-style: italic;
+        color: #a0aec0;
+    }
+</style>
+{% endblock %}

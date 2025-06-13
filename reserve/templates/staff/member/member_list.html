@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="members-container">
+    <h2>Members</h2>
+
+    <div class="actions">
+
+        <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    {% if members %}
+    <table class="members-table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td>{{ member.user.username }}</td>
+                <td>{{ member.get_membership_status_display }}</td>
+                <td>
+                    <a href="{% url 'member_detail' member.pk %}" class="btn btn-link">View</a> |
+                    <a href="{% url 'member_update' member.pk %}" class="btn btn-link">Edit</a>
+                    {% if member.membership_status != 'approved' %}
+                    | <a href="{% url 'member_approve' member.pk %}" class="btn btn-link">Approve</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="no-members-message">No members found.</p>
+    {% endif %}
+</div>
+
+<style>
+    .members-container {
+        max-width: 800px;
+        margin: 24px auto;
+        padding: 24px;
+        background: rgba(30, 41, 59, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 12px 40px rgba(100, 116, 139, 0.3);
+        color: #f1f5f9;
+        font-family: 'Inter', sans-serif;
+    }
+
+    h2 {
+        font-weight: 700;
+        color: #d9f0f7;
+        margin-bottom: 16px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+        color: #f8fafc;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+        background: linear-gradient(135deg, #5a27c9, #0497b3);
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #64748b;
+        color: #f8fafc;
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+        background: #4a5967;
+        color: #fff;
+    }
+
+    .members-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .members-table th,
+    .members-table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        text-align: left;
+    }
+
+    .members-table th {
+        background: rgba(124, 58, 237, 0.6);
+        color: #fff;
+    }
+
+    .members-table tr:hover {
+        background-color: rgba(124, 58, 237, 0.2);
+    }
+
+    .btn-link {
+        color: #06b6d4;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+
+    .btn-link:hover,
+    .btn-link:focus {
+        color: #7c3aed;
+        text-decoration: none;
+    }
+
+    .no-members-message {
+        font-style: italic;
+        color: #a0aec0;
+    }
+
+    @media (max-width: 600px) {
+
+        .members-table th,
+        .members-table td {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}

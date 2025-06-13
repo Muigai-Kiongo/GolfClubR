@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Event Details: {{ event.name }}</h2>
+
+<p><strong>Description:</strong> {{ event.description|linebreaks }}</p>
+<p><strong>Date:</strong> {{ event.event_date }}</p>
+<p><strong>Start Time:</strong> {{ event.start_time }}</p>
+<p><strong>End Time:</strong> {{ event.end_time }}</p>
+<p><strong>Location:</strong> {{ event.location }}</p>
+<p><strong>Capacity:</strong> {{ event.capacity }}</p>
+<p><strong>Price per Attendee:</strong> ${{ event.price }}</p>
+
+<a href="{% url 'event_update' event.pk %}" class="btn btn-primary">Edit</a>
+<a href="{% url 'event_delete' event.pk %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'event_list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}

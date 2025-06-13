@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Tee Time Details for {{ tee_time.golf_course.name }}</h2>
+
+<p><strong>Start Time:</strong> {{ tee_time.start_time }}</p>
+<p><strong>End Time:</strong> {{ tee_time.end_time }}</p>
+<p><strong>Max Players:</strong> {{ tee_time.max_players }}</p>
+<p><strong>Available:</strong> {{ tee_time.available|yesno:"Yes,No" }}</p>
+<p><strong>Price per Player:</strong> ${{ tee_time.price }}</p>
+
+<a href="{% url 'tee_time_update' tee_time.pk %}" class="btn btn-primary">Edit</a>
+<a href="{% url 'tee_time_delete' tee_time.pk %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'tee_time_list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}

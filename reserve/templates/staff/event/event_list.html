@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="events-container">
+    <h2>Events</h2>
+
+    <div class="actions">
+        <a href="{% url 'event_create' %}" class="btn btn-primary">Add New Event</a>
+        <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    {% if events %}
+    <ul class="events-list">
+        {% for event in events %}
+        <li class="event-item">
+            <span class="event-name">{{ event.name }}</span>
+            <span class="event-date">{{ event.event_date }}</span>
+            <div class="event-actions">
+                <a href="{% url 'event_update' event.pk %}" class="btn btn-link">Edit</a> |
+                <a href="{% url 'event_delete' event.pk %}" class="btn btn-link">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="no-events-message">No events found.</p>
+    {% endif %}
+</div>
+
+<style>
+    .events-container {
+        max-width: 800px;
+        margin: 24px auto;
+        padding: 24px;
+        background: rgba(30, 41, 59, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 12px 40px rgba(100, 116, 139, 0.3);
+        color: #f1f5f9;
+        font-family: 'Inter', sans-serif;
+    }
+
+    h2 {
+        font-weight: 700;
+        color: #d9f0f7;
+        margin-bottom: 16px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+        color: #f8fafc;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+        background: linear-gradient(135deg, #5a27c9, #0497b3);
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #64748b;
+        color: #f8fafc;
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+        background: #4a5967;
+        color: #fff;
+    }
+
+    .events-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .event-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+    }
+
+    .event-item:last-child {
+        border-bottom: none;
+    }
+
+    .event-name {
+        font-weight: 600;
+        color: #d9f0f7;
+    }
+
+    .event-date {
+        color: #a0aec0;
+        margin-left: 12px;
+    }
+
+    .event-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-link {
+        color: #06b6d4;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+
+    .btn-link:hover,
+    .btn-link:focus {
+        color: #7c3aed;
+        text-decoration: none;
+    }
+
+    .no-events-message {
+        font-style: italic;
+        color: #a0aec0;
+    }
+</style>
+{% endblock %}

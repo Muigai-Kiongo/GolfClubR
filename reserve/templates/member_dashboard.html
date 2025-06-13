@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="member_dashboard">
+    <h2>Welcome, {{ user.username }}!</h2>
+    <h3>Your Bookings:</h3>
+    {% if bookings %}
+    <table class="bookings-table" role="grid">
+        <thead>
+            <tr>
+                <th scope="col">Booking Type</th>
+                <th scope="col">Scheduled Date</th>
+                <th scope="col">Guests</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr role="row">
+                <td>{{ booking.booking_type|title }}</td>
+                <td>{{ booking.scheduled_date|date:"M d, Y H:i" }}</td>
+                <td>{{ booking.number_of_guests }}</td>
+                <td>{% if booking.notes %}{{ booking.notes }}{% else %}-{% endif %}</td>
+                <td>
+                    <a href="" class="btn btn-link" aria-label="View details for booking {{ booking.id }}">View
+                        Details</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No bookings found.</p>
+    {% endif %}
+    <a href="{% url 'create_booking' %}" class="btn btn-primary">Create New Booking</a> |
+    <a href="{% url 'update_member_profile' %}" class="btn btn-secondary">Update Profile</a>
+</div>
+
+<style>
+    .member_dashboard {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: #f0f4f8;
+    }
+
+    .bookings-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.5rem;
+    }
+
+    .bookings-table thead {
+        background: rgba(124, 58, 237, 0.8);
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .bookings-table th,
+    .bookings-table td {
+        padding: 12px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-align: left;
+    }
+
+    .bookings-table tbody tr:hover,
+    .bookings-table tbody tr:focus-within {
+        background-color: rgba(124, 58, 237, 0.4);
+        outline: none;
+        color: #fff;
+    }
+
+    .bookings-table a.btn-link {
+        color: #06b6d4;
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .bookings-table a.btn-link:hover,
+    .bookings-table a.btn-link:focus {
+        color: #7c3aed;
+        text-decoration: none;
+        outline: none;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+        color: #f8fafc;
+        border: none;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+        background: linear-gradient(135deg, #5a27c9, #0497b3);
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #64748b;
+        color: #f8fafc;
+        border: none;
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+        background: #4a5967;
+        color: #fff;
+    }
+</style>
+{% endblock %}

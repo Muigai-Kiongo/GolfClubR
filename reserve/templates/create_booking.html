@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h2>Create Booking</h2>
+<form method="post" class="booking-form">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="{{ form.booking_type.id_for_label }}">Booking Type:</label>
+        {{ form.booking_type }}
+    </div>
+
+    <div class="form-group" id="hotelField" style="display: none;">
+        <label for="{{ form.hotel.id_for_label }}">Hotel:</label>
+        {{ form.hotel }}
+    </div>
+
+    <div class="form-group" id="hotelTableField" style="display: none;">
+        <label for="{{ form.hotel_table.id_for_label }}">Hotel Table:</label>
+        {{ form.hotel_table }}
+    </div>
+
+    <div class="form-group" id="activityField" style="display: none;">
+        <label for="{{ form.activity.id_for_label }}">Activity:</label>
+        {{ form.activity }}
+    </div>
+
+    <div class="form-group" id="eventField" style="display: none;">
+        <label for="{{ form.event.id_for_label }}">Event:</label>
+        {{ form.event }}
+    </div>
+
+    <div class="form-group" id="teeTimeField" style="display: none;">
+        <label for="{{ form.tee_time.id_for_label }}">Tee Time:</label>
+        {{ form.tee_time }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.scheduled_date.id_for_label }}">Scheduled Date:</label>
+        {{ form.scheduled_date }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.number_of_guests.id_for_label }}">Number of Guests:</label>
+        {{ form.number_of_guests }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.notes.id_for_label }}">Notes:</label>
+        {{ form.notes }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Booking</button>
+    <a href="{% url 'member_dashboard'%}" class="btn btn-secondary">Cancel</a>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const bookingTypeSelect = document.getElementById('{{ form.booking_type.auto_id }}');
+
+        // Wrapper divs
+        const hotelField = document.getElementById('hotelField');
+        const hotelTableField = document.getElementById('hotelTableField');
+        const activityField = document.getElementById('activityField');
+        const eventField = document.getElementById('eventField');
+        const teeTimeField = document.getElementById('teeTimeField');
+
+        function updateVisibility() {
+            // Hide all optional fields initially
+            hotelField.style.display = 'none';
+            hotelTableField.style.display = 'none';
+            activityField.style.display = 'none';
+            eventField.style.display = 'none';
+            teeTimeField.style.display = 'none';
+
+            if (!bookingTypeSelect) return;
+            const selectedType = bookingTypeSelect.value;
+
+            if (selectedType === 'hotel') {
+                hotelField.style.display = 'block';
+            } else if (selectedType === 'table') {
+                hotelTableField.style.display = 'block';
+            } else if (selectedType === 'activity') {
+                activityField.style.display = 'block';
+            } else if (selectedType === 'event') {
+                eventField.style.display = 'block';
+            } else if (selectedType === 'tee_time') {
+                teeTimeField.style.display = 'block';
+            }
+        }
+
+        if (bookingTypeSelect) {
+            bookingTypeSelect.addEventListener('change', updateVisibility);
+            bookingTypeSelect.addEventListener('input', updateVisibility);
+        }
+        updateVisibility(); // Initialize field visibility on page load
+    });
+</script>
+
+<style>
+    .booking-form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 24px 32px;
+        border-radius: 12px;
+        background: #1e293b;
+        /* dark background */
+        box-shadow: 0 12px 40px rgba(100, 116, 139, 0.2);
+        color: #f1f5f9;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+        display: block;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #e0e7ff;
+    }
+
+    .form-group input,
+    .form-group select,
+    textarea {
+        width: 100%;
+        background: #334155;
+        border: 1.5px solid #64748b;
+        border-radius: 8px;
+        color: #f8fafc;
+        font-size: 1rem;
+        padding: 12px 16px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group textarea {
+        height: 60px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.4);
+    }
+
+    .btn-primary {
+        display: inline-block;
+        padding: 14px 28px;
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+        border: none;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #f8fafc;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        user-select: none;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+        .booking-form {
+            padding: 20px;
+            margin: 16px;
+        }
+    }
+</style>
+{% endblock %}

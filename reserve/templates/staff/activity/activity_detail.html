@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Activity Details: {{ activity.name }}</h2>
+
+<p><strong>Description:</strong> {{ activity.description|linebreaks }}</p>
+<p><strong>Start Time:</strong> {{ activity.start_time }}</p>
+<p><strong>End Time:</strong> {{ activity.end_time }}</p>
+<p><strong>Location:</strong> {{ activity.location }}</p>
+<p><strong>Capacity:</strong> {{ activity.capacity }}</p>
+<p><strong>Price per Participant:</strong> ${{ activity.price }}</p>
+
+<a href="{% url 'activity_update' activity.pk %}" class="btn btn-primary">Edit</a>
+<a href="{% url 'activity_delete' activity.pk %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'activity_list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Awaiting Approval</h2>
+<p>Your membership is currently under review. Please await approval to access your profile and dashboard.</p>
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+{% endblock %}

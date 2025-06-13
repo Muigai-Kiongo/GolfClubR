@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{% if form.instance.pk %}Update Member{% else %}Create Member{% endif %}</h2>
+
+<form method="post" class="member-form" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="form-row">
+        {% for field in form %}
+        <div class="form-group flex-item">
+            {{ field.label_tag }}
+            <div class="input-wrapper">
+                {{ field }}
+            </div>
+            {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'member_list' %}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+<style>
+    .member-form {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px 32px;
+        border-radius: 12px;
+        background: #1e293b;
+        box-shadow: 0 12px 40px rgba(100, 116, 139, 0.2);
+        color: #f1f5f9;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 80vh;
+        overflow-y: auto;
+    }
+</style>
+{% endblock %}

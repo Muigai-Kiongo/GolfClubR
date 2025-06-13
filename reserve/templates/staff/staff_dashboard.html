@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<div class="staff-dashboard-container">
+    <section class="bookings-section" aria-label="All bookings">
+        <h2>All Bookings:</h2>
+        {% if bookings %}
+        <ul class="booking-list" role="list" tabindex="0">
+            {% for booking in bookings %}
+            <li class="booking-item" tabindex="0">
+                <span class="booking-member">{{ booking.member.user.username }}</span>
+                <span class="booking-type">{{ booking.booking_type|title }}</span>
+                <span class="booking-date">{{ booking.scheduled_date|date:"M d, Y H:i" }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="no-bookings-message">No bookings found.</p>
+        {% endif %}
+    </section>
+
+    <section class="management-section" aria-label="Management options" role="navigation">
+        <nav class="management-nav">
+            <a href="{% url 'hotel_list' %}" class="btn btn-secondary" tabindex="0" aria-describedby="hotel-desc"
+                data-thumb-url="{% static 'img/hotel.jpeg' %}">Manage Hotels</a>
+            <a href="{% url 'booking_list' %}" class="btn btn-secondary" tabindex="0" aria-describedby="booking-desc"
+                data-thumb-url="{% static 'img/booking.jpeg' %}">Manage Bookings</a>
+            <a href="{% url 'member_list' %}" class="btn btn-secondary" tabindex="0" aria-describedby="member-desc"
+                data-thumb-url="{% static 'img/member.jpeg' %}">Manage Members</a>
+            <a href="{% url 'activity_list' %}" class="btn btn-secondary" tabindex="0" aria-describedby="activity-desc"
+                data-thumb-url="{% static 'img/activity.jpeg' %}">Manage Activities</a>
+            <a href="{% url 'event_list' %}" class="btn btn-secondary" tabindex="0" aria-describedby="event-desc"
+                data-thumb-url="{% static 'img/event.jpeg' %}">Manage Events</a>
+            <a href="{% url 'tee_time_list' %}" class="btn btn-secondary" tabindex="0" aria-describedby="tee-time-desc"
+                data-thumb-url="{% static 'img/tee-time.jpeg' %}">Manage Tee Times</a>
+        </nav>
+    </section>
+</div>
+
+<style>
+    .staff-dashboard-container {
+        max-width: 1100px;
+        margin: 24px auto;
+        padding: 0 32px 32px;
+        background: rgba(30, 41, 59, 0.85);
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(100, 116, 139, 0.3);
+        color: #f1f5f9;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 80vh;
+    }
+
+    /* Scrollable bookings section */
+    .bookings-section {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding-bottom: 20px;
+    }
+
+    .booking-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 100%;
+        border: 1px solid rgba(100, 116, 139, 0.2);
+        border-radius: 12px;
+    }
+
+    .booking-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(100, 116, 139, 0.1);
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .booking-item:last-child {
+        border-bottom: none;
+    }
+
+    .booking-item:hover,
+    .booking-item:focus-within {
+        background-color: rgba(124, 58, 237, 0.4);
+        outline: none;
+        color: #fff;
+    }
+
+    .booking-member,
+    .booking-type,
+    .booking-date {
+        flex: 1 1 33%;
+        text-align: center;
+    }
+
+    .no-bookings-message {
+        font-style: italic;
+        color: #a0aec0;
+    }
+
+    /* Management section fixed height and at bottom */
+    .management-section {
+        border-top: 1px solid rgba(100, 116, 139, 0.2);
+        padding: 16px 0 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .management-nav {
+        display: flex;
+        gap: 16px;
+        flex-wrap: nowrap;
+        position: relative;
+    }
+
+    .management-nav .btn-secondary {
+        position: relative;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        border-radius: 12px;
+        background-color: #64748b;
+        color: #f8fafc;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        overflow: visible;
+    }
+
+    .management-nav .btn-secondary:hover,
+    .management-nav .btn-secondary:focus-visible {
+        background-color: #4a5967;
+        box-shadow: 0 4px 12px rgba(100, 116, 139, 0.6);
+        outline: none;
+    }
+
+    /* Thumbnail container */
+    .management-nav .btn-secondary::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -120%);
+        width: 80px;
+        height: 50px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 10;
+    }
+
+    /* Show thumbnail on hover or focus */
+    .management-nav .btn-secondary:hover::after,
+    .management-nav .btn-secondary:focus-visible::after {
+        opacity: 1;
+        transform: translate(-50%, -100%);
+    }
+
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+        .management-nav {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .management-nav .btn-secondary {
+            flex: 1 1 120px;
+            margin-bottom: 12px;
+        }
+
+        .management-nav .btn-secondary::after {
+            top: -60px;
+            width: 60px;
+            height: 40px;
+        }
+    }
+</style>
+
+<script>
+    // On DOM ready, set each management button's ::after thumbnail background from data-thumb-url attribute
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.management-nav .btn-secondary');
+        buttons.forEach(btn => {
+            const thumbUrl = btn.getAttribute('data-thumb-url');
+            if (thumbUrl) {
+                btn.style.setProperty('--thumb-url', `url(${thumbUrl})`);
+                // Create style element for ::after element with background image
+                const style = document.createElement('style');
+                style.textContent = `
+          .management-nav .btn-secondary[data-thumb-url="${thumbUrl}"]::after {
+            background-image: var(--thumb-url);
+          }`;
+                document.head.appendChild(style);
+            }
+        });
+    });
+</script>
+{% endblock %}
