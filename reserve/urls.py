@@ -6,9 +6,11 @@ urlpatterns = [
     # Client Interface
     path('', views.member_dashboard, name='member_dashboard'),
     path('booking/create/', views.create_booking, name='create_booking'),
+    path('payment/',views.payment,name='payment'),
 
     # Staff Interface
     path('staff/dashboard/', views.staff_dashboard, name='staff_dashboard'),
+    path('staff/reports',views.reports_view, name='staff_reports'),
 
     path('staff/hotels/', views.hotel_list, name='hotel_list'),
     path('staff/hotels/create/', views.hotel_create, name='hotel_create'),

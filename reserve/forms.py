@@ -159,3 +159,18 @@ class MemberProfileUpdateForm(forms.ModelForm):
             'handicap': forms.NumberInput(attrs={'min': 0}),
             'address': forms.Textarea(attrs={'rows': 3}),
         }
+
+
+
+class ReportForm(forms.Form):
+    REPORT_TYPE_CHOICES = [
+        ('weekly', 'Weekly Report'),
+        ('monthly', 'Monthly Report'),
+        ('yearly', 'Yearly Report'),
+    ]
+
+    report_type = forms.ChoiceField(
+        choices=REPORT_TYPE_CHOICES,
+        label='Select Report Type',
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )

@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Generate Reports</h1>
+
+<form method="post" action="{% url 'staff_reports' %}">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ form.report_type.label_tag }} {{ form.report_type }}
+  </div>
+  <button type="submit" class="btn btn-primary">Generate Report</button>
+</form>
+
+{% if report_html %}
+<h2>Generated Report</h2>
+<div>{{ report_html|safe }}</div>
+{% endif %} {% endblock %}

@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import MemberRegistrationForm, BookingForm, HotelForm, HotelTableForm, ActivityForm, EventForm, TeeTimeForm, MemberProfileUpdateForm
+from .forms import MemberRegistrationForm, BookingForm, HotelForm, HotelTableForm, ActivityForm, EventForm, TeeTimeForm, MemberProfileUpdateForm, ReportForm
 from .models import Booking, Hotel, HotelTable, Activity, Event, TeeTime, MemberProfile
 from django.views import generic
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.template.loader import render_to_string 
 
 # --- Client Interface Views ---
 
@@ -40,7 +41,7 @@ def create_booking(request):
             booking.member = request.user.profile  # Associate with the logged-in member
             booking.save()
             messages.success(request, 'Booking created successfully!')
-            return redirect('member_dashboard')
+            return redirect('payment')
         else:
             messages.error(request, 'Booking creation failed. Please correct the errors below.')
     else:
@@ -48,7 +49,8 @@ def create_booking(request):
     return render(request, 'create_booking.html', {'form': form})
 
 
-
+def payment(request):
+    return render(request, 'payment.html')
 
 
 # --- Staff Interface Views ---
@@ -319,3 +321,52 @@ def tee_time_delete(request, pk):
         messages.success(request, 'Tee time deleted successfully.')
         return redirect('tee_time_list')
     return render(request, 'staff/tee_time/tee_time_confirm_delete.html', {'tee_time': tee_time})
+
+
+@login_required
+def reports_view(request):
+    report_html = None
+    report_type = None
+
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            report_type = form.cleaned_data['report_type']
+            bookings = get_bookings(report_type)  # Get bookings based on the report type
+            members = MemberProfile.objects.all()  # Get all members
+            hotels = Hotel.objects.all()  # Get all hotels
+            activities = Activity.objects.all()  # Get all activities
+            events = Event.objects.all()  # Get all events
+            tee_times = TeeTime.objects.all()  # Get all tee times
+
+            # Render the report with all the necessary data
+            report_html = render_to_string('reports/merged_reports.html', {
+                'bookings': bookings,
+                'members': members,
+                'hotels': hotels,
+                'activities': activities,
+                'events': events,
+                'tee_times': tee_times,
+                'report_type': report_type,
+            })
+    else:
+        form = ReportForm()
+
+    return render(request, 'reports/staff_reports.html', {
+        'form': form,
+        'report_html': report_html,
+        'report_type': report_type,
+    })
+
+def get_bookings(report_type):
+    now = timezone.now()
+    if report_type == 'weekly':
+        week_start = now - timezone.timedelta(days=7)
+        return Booking.objects.filter(scheduled_date__gte=week_start)
+    elif report_type == 'monthly':
+        month_start = now.replace(day=1)
+        return Booking.objects.filter(scheduled_date__gte=month_start)
+    elif report_type == 'yearly':
+        year_start = now.replace(month=1, day=1)
+        return Booking.objects.filter(scheduled_date__gte=year_start)
+    return Booking.objects.none()

@@ -1,0 +1,149 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Merged Report - {{ report_type|title }}</h1>
+
+<h2>Bookings</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Member</th>
+      <th>Booking Type</th>
+      <th>Scheduled Date</th>
+      <th>Number of Guests</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for booking in bookings %}
+    <tr>
+      <td>{{ booking.member.user.username }}</td>
+      <td>{{ booking.get_booking_type_display }}</td>
+      <td>{{ booking.scheduled_date }}</td>
+      <td>{{ booking.number_of_guests }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Members</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Status</th>
+      <th>Membership Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for member in members %}
+    <tr>
+      <td>{{ member.user.username }}</td>
+      <td>{{ member.get_membership_status_display }}</td>
+      <td>{{ member.get_membership_type_display }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Hotels</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Rooms Available</th>
+      <th>Price per Night</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for hotel in hotels %}
+    <tr>
+      <td>{{ hotel.name }}</td>
+      <td>{{ hotel.rooms_available }}</td>
+      <td>${{ hotel.price_per_night }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Activities</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for activity in activities %}
+    <tr>
+      <td>{{ activity.name }}</td>
+      <td>{{ activity.start_time }}</td>
+      <td>{{ activity.end_time }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Events</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in events %}
+    <tr>
+      <td>{{ event.name }}</td>
+      <td>{{ event.event_date }}</td>
+      <td>{{ event.location }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Tee Times</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Golf Course</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for tee_time in tee_times %}
+    <tr>
+      <td>{{ tee_time.golf_course.name }}</td>
+      <td>{{ tee_time.start_time }}</td>
+      <td>{{ tee_time.end_time }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<style>
+  table {
+    margin: 0 auto;
+    padding: 24px 32px;
+    border-radius: 12px;
+    background: #1e293b;
+    /* dark background */
+    box-shadow: 0 12px 40px rgba(100, 116, 139, 0.2);
+    color: #f1f5f9;
+    font-family: "Inter", sans-serif;
+  }
+  h2 {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    color: #f0f4f8;
+    font-family: "Inter", sans-serif;
+  }
+  th,
+  td {
+    color: white;
+  }
+</style>
+
+{% endblock %}

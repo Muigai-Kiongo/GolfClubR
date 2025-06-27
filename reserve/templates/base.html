@@ -1,306 +1,327 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Golf Club Management{% endblock %}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <style>
-        body {
-            padding-top: 56px;
-            /* Adjust for fixed navbar */
-            margin: 0;
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-            background-image: url("{% static '/img/login.jpeg' %}");
-            background-size: cover;
-            /* Cover the entire viewport */
-            background-position: center;
-            color: #f0f4f8;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+      body {
+        padding-top: 56px;
+        /* Adjust for fixed navbar */
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+          "Helvetica Neue", sans-serif;
+        background-image: url("{% static '/img/login.jpeg' %}");
+        background-size: cover;
+        /* Cover the entire viewport */
+        background-position: center;
+        color: #f0f4f8;
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
 
-        .navbar {
-            background-color: #343a40;
-            /* Dark background */
-            padding: 10px 20px;
-            /* Add padding for better spacing */
-        }
+      .navbar {
+        background-color: #343a40;
+        /* Dark background */
+        padding: 10px 20px;
+        /* Add padding for better spacing */
+      }
 
-        .navbar-brand {
-            font-size: 1.5rem;
-            /* Increase brand font size */
-            font-weight: bold;
-            /* Make brand text bold */
-        }
+      .navbar-brand {
+        font-size: 1.5rem;
+        /* Increase brand font size */
+        font-weight: bold;
+        /* Make brand text bold */
+      }
 
-        .navbar-nav .nav-link {
-            color: white !important;
-            /* White text */
-            margin-right: 15px;
-            /* Space between nav items */
-            font-weight: 500;
-            /* Slightly bolder text */
-        }
+      .navbar-nav .nav-link {
+        color: white !important;
+        /* White text */
+        margin-right: 15px;
+        /* Space between nav items */
+        font-weight: 500;
+        /* Slightly bolder text */
+      }
 
-        .navbar-nav .nav-link:hover {
-            color: #7c3aed;
-            /* Change color on hover */
-        }
+      .navbar-nav .nav-link:hover {
+        color: #7c3aed;
+        /* Change color on hover */
+      }
 
-        .logoutBtn {
-            margin-left: 20px;
-            /* Space before logout button */
-        }
+      .logoutBtn {
+        margin-left: 20px;
+        /* Space before logout button */
+      }
 
-        .logoutBtn button {
-            background-color: #dc3545;
-            /* Bootstrap danger color */
-            color: white;
-            /* White text */
-            border: none;
-            /* Remove border */
-            border-radius: 5px;
-            /* Rounded corners */
-            padding: 8px 12px;
-            /* Padding for button */
-            font-weight: 600;
-            /* Bold text */
-            cursor: pointer;
-            /* Pointer cursor */
-            transition: background-color 0.3s ease;
-            /* Smooth transition */
-        }
+      .logoutBtn button {
+        background-color: #dc3545;
+        /* Bootstrap danger color */
+        color: white;
+        /* White text */
+        border: none;
+        /* Remove border */
+        border-radius: 5px;
+        /* Rounded corners */
+        padding: 8px 12px;
+        /* Padding for button */
+        font-weight: 600;
+        /* Bold text */
+        cursor: pointer;
+        /* Pointer cursor */
+        transition: background-color 0.3s ease;
+        /* Smooth transition */
+      }
 
-        .logoutBtn button:hover {
-            background-color: #c82333;
-            /* Darker red on hover */
-        }
+      .logoutBtn button:hover {
+        background-color: #c82333;
+        /* Darker red on hover */
+      }
 
-        /* Container */
-        .container {
-            max-width: 1140px;
-            width: 90%;
-            margin: 0 auto;
-            padding: 20px;
-            /* Add padding for better spacing */
-            flex: 1;
-            /* Allow the container to grow and fill the available space */
-        }
+      /* Container */
+      .container {
+        max-width: 1140px;
+        width: 90%;
+        margin: 0 auto;
+        padding: 20px;
+        /* Add padding for better spacing */
+        flex: 1;
+        /* Allow the container to grow and fill the available space */
+      }
 
-        /* Messages */
-        .messages {
-            margin: 1rem 0;
-            padding: 0;
-            list-style: none;
-        }
+      /* Messages */
+      .messages {
+        margin: 1rem 0;
+        padding: 0;
+        list-style: none;
+      }
 
-        .messages li {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 12px;
-            font-weight: 600;
-        }
+      .messages li {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 12px;
+        font-weight: 600;
+      }
 
-        .messages li.error {
-            background-color: #ce4545;
-            color: #ffe9e9;
-        }
+      .messages li.error {
+        background-color: #ce4545;
+        color: #ffe9e9;
+      }
 
-        .messages li.success {
-            background-color: #1a936f;
-            color: #d5f4e6;
-        }
+      .messages li.success {
+        background-color: #1a936f;
+        color: #d5f4e6;
+      }
 
-        .messages li.warning {
-            background-color: #ffd166;
-            color: #3a3a3a;
-        }
+      .messages li.warning {
+        background-color: #ffd166;
+        color: #3a3a3a;
+      }
 
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px 32px;
-            flex-grow: 1;
-            overflow-y: auto;
-            padding-bottom: 16px;
-        }
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px 32px;
+        flex-grow: 1;
+        overflow-y: auto;
+        padding-bottom: 16px;
+      }
 
+      .flex-item {
+        flex: 1 1 45%;
+        min-width: 250px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #e0e7ff;
+      }
+
+      .input-wrapper {
+        width: 100%;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        background: #334155;
+        border: 1.5px solid #64748b;
+        border-radius: 8px;
+        color: #f8fafc;
+        font-size: 1rem;
+        padding: 12px 16px;
+        transition: border-color 0.3s ease;
+        resize: vertical;
+      }
+
+      .form-group textarea {
+        height: 60px;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.4);
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 16px;
+        padding-top: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+
+      .btn-primary {
+        padding: 14px 28px;
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+        border: none;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #f8fafc;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        user-select: none;
+      }
+
+      .btn-primary:hover,
+      .btn-primary:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
+      }
+
+      .btn-secondary {
+        padding: 14px 28px;
+        background: #64748b;
+        border: none;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #f8fafc;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        user-select: none;
+      }
+
+      .btn-secondary:hover,
+      .btn-secondary:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(100, 116, 139, 0.5);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
         .flex-item {
-            flex: 1 1 45%;
-            min-width: 250px;
-            display: flex;
-            flex-direction: column;
+          flex: 1 1 100%;
+          min-width: unset;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 1rem;
-            color: #e0e7ff;
+        .tee-time-form {
+          height: auto;
+          overflow-y: visible;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .container {
+          width: 95%;
         }
 
-        .input-wrapper {
-            width: 100%;
+        table,
+        ul {
+          font-size: 0.9rem;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            background: #334155;
-            border: 1.5px solid #64748b;
-            border-radius: 8px;
-            color: #f8fafc;
-            font-size: 1rem;
-            padding: 12px 16px;
-            transition: border-color 0.3s ease;
-            resize: vertical;
+        form {
+          padding: 1.5rem;
         }
-
-        .form-group textarea {
-            height: 60px;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #7c3aed;
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.4);
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 16px;
-            padding-top: 12px;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-        }
-
-        .btn-primary {
-            padding: 14px 28px;
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            border: none;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 1rem;
-            color: #f8fafc;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            user-select: none;
-        }
-
-        .btn-primary:hover,
-        .btn-primary:focus-visible {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
-        }
-
-        .btn-secondary {
-            padding: 14px 28px;
-            background: #64748b;
-            border: none;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 1rem;
-            color: #f8fafc;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            user-select: none;
-        }
-
-        .btn-secondary:hover,
-        .btn-secondary:focus-visible {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(100, 116, 139, 0.5);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .flex-item {
-                flex: 1 1 100%;
-                min-width: unset;
-            }
-
-            .tee-time-form {
-                height: auto;
-                overflow-y: visible;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-            }
-
-            table,
-            ul {
-                font-size: 0.9rem;
-            }
-
-            form {
-                padding: 1.5rem;
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <a class="navbar-brand" href="#">Golf Club</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                {% if user.is_staff %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'staff_dashboard' %}">Staff Dashboard</a>
-                </li>
-                {% elif user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'member_dashboard' %}">Dashboard</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
-                {% endif %}
-            </ul>
-            <div class="logoutBtn">
-                <form action="{% url 'logout' %}" method="post" class="logoutBtn">
-                    {% csrf_token %}
-                    <button type="submit">Logout</button>
-                </form>
-            </div>
+      <a class="navbar-brand" href="#">Blue Peak Golf Club</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          {% if user.is_staff %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'staff_dashboard' %}"
+              >Staff Dashboard</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'staff_reports' %}"
+              >Reports</a
+            >
+          </li>
+          {% elif user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'member_dashboard' %}">Dashboard</a
+            >
+            
+          </li "nav-item">
+          <li ><a
+            href="{% url 'update_member_profile' %}"
+            class="nav-link"
+            >Update Profile</a
+          ></li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+          {% endif %}
+        </ul>
+        <div class="logoutBtn">
+          <form action="{% url 'logout' %}" method="post" class="logoutBtn">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+          </form>
         </div>
+      </div>
     </nav>
 
     <div class="container">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
-        {% endif %}
-        {% block content %}
-        <!-- Content goes here -->
-        {% endblock %}
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% block content %}
+      <!-- Content goes here -->
+      {% endblock %}
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
+  </body>
 </html>
